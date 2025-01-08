@@ -1,12 +1,14 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { BadRequestException, Injectable, NotFoundException } from "@nestjs/common";
 import { ProductDTO } from "./product.dto";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Product } from "./product.entity";
 import { Repository } from "typeorm";
+import { Category } from "../categories/category.entity";
 
 @Injectable()
 export class ProductRepository{
-    constructor(@InjectRepository(Product) private productRepository: Repository<Product>){}
+    constructor(@InjectRepository(Product) private productRepository: Repository<Product>,
+@InjectRepository(Category) private categoryRepository: Repository<Category>){}
 
     async getAll(page: number, limit:number):Promise<Product[]>{
         const initialPage= (page-1)*limit;
@@ -20,7 +22,7 @@ export class ProductRepository{
     }
     async getOnebyId(id:string):Promise<Product>{
         // const product= products.find((item)=>item.id=== id);
-        const product= await this.productRepository.findOne({where:{id:id}});
+        const product= await this.productRepository.findOne({where:{id:id}, relations:{category:true}});
         if(!product){
             throw new NotFoundException('producto no encontrado')
         }
@@ -36,7 +38,21 @@ export class ProductRepository{
         //     stock: data.stock,
         //     price: data.price
         // }; products.push(newProduct);
-        const newProduct= this.productRepository.create(data);
+        const nameProduct= await this.productRepository.findOne({where:{name: data.name}});
+        if(nameProduct){
+            throw new BadRequestException('producto ya existente')
+        };
+        const {category, ...rest}=data;
+        if(!category){
+            throw new BadRequestException('debe indicar una categoria del producto')
+        }
+        let categori= await this.categoryRepository.findOne({where:{name: category}});
+        if(!categori){
+            categori= this.categoryRepository.create({name:category});
+            await this.categoryRepository.save(categori)
+        };
+       
+        const newProduct= this.productRepository.create({category:categori, ...rest});
         if(!newProduct){
             throw new NotFoundException('producto no creado')
         };
@@ -53,7 +69,15 @@ export class ProductRepository{
         if(!product){
             throw new NotFoundException('producto no encontrado')
         };
-        Object.assign(product, data);
+
+        const{category, ...rest}=data;
+        let categori= await this.categoryRepository.findOne({where:{name:category}});
+        if(!categori){
+            categori= this.categoryRepository.create({name:category});
+            await this.categoryRepository.save(categori)
+        };
+        product.category= categori;
+        Object.assign(product, rest);
         await this.productRepository.save(product);
         return product
     }

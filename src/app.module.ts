@@ -5,6 +5,9 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import typeormConfig from './configuracion/typeorm.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { AuthModule } from './modulos/auth/auth.module';
+import { CategoryModule } from './modulos/categories/category.module';
+import { OrderDetailsModule } from './modulos/orderDetail/orderDetails.module';
+import { OrderModule } from './modulos/orders/order.module';
 
 @Module({
   imports: [
@@ -16,7 +19,10 @@ import { AuthModule } from './modulos/auth/auth.module';
     }),
     UsersModule,
     ProductsModule,
-    AuthModule
+    AuthModule,
+    CategoryModule,
+    OrderDetailsModule,
+    OrderModule
   ],
   controllers: [],
   providers: [],

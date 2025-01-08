@@ -43,8 +43,37 @@
 //* relaciones typeorm: @OnetoOne()/ @joincolumn(), @manytoone()/@onetomany(), @manytomany()/ @jointable(), {cascade:true}
 //* inyeccion de repositories: constructor(@InjectRepository(User) private userRepository: Repository<User>){}
 //* imports:[TypeOrmModule.forFeature([User])], en repositories.module
+//* en app.module agregar todos los @Module 
 //* adaptar funciones con metodos: .create, .find, .finone, .save,etc
-
+// para mapear los productos debe ser async: await Promise.all(data.products.map(async(item)=>{await ...}))
+//* npm i class-validator class-transformer :El trabajo de class-transformer será transformar los objetos recibidos en instancias de una clase, para que puedan ser validados mediante los decoradores de class-validator.
+//* implementar el globalPipe de class- validator
+// app.useGlobalPipes(new ValidationPipe({
+//     whitelist:true,
+//     exceptionFactory(errors) {
+//         const error= errors.map((err)=> {return {
+//           property: err.property, constraints: err.constraints
+//         }});
+//         return new BadRequestException({alert:'se detectaron los sgtes errores:', errors: error})
+//     },
+//   }))
+//* validacion en DTO'S: @IsNotEmpty(),@IsEmail(), @MaxLength(15), @IsStrongPassword({}),@ArrayNotEmpty(),@IsArray(), @ValidateNested({each:true}),@Type(()=>Product)
+//* Validacionde uuid: (@Param('id', ParseUUIDPipe) id: string)
+//* FILE UPLOAD: Configurar una cuenta en Cloudinary y generar las credenciales de acceso correspondientes.
+// npm i -D @types/multer
+// npm install cloudinary
+// import { v2 as cloudinary} from "cloudinary"
+// dotenvConfig({path:'.env'})
+// export const cloudinaryConfig= {
+//     provide:'CLOUDINARY',
+//     useFactory:()=>{
+//         return cloudinary.config({
+//             cloud_name:process.env.CLOUDINARY_NAME,
+//             api_key:process.env.CLOUDINARY_API_KEY,
+//             api_secret: process.env.CLOUDINARY_API_SECRET
+//         })
+//     }
+// }
 
 
 // decorador @Inject( 'name') private nameInternal :inyeccion de dependencia  con un 'provide' personalizado

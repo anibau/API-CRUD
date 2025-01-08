@@ -3,4 +3,5 @@ export class ProductDTO{
     description: string
     stock: number
     price: number
+    category:string
 }

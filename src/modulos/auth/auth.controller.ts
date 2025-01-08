@@ -2,6 +2,7 @@ import { BadRequestException, Body, Controller, HttpCode, HttpStatus, Post } fro
 import { AuthService } from "./auth.service";
 import { validateUser } from "src/utils/validateUser";
 import { CreateUserDto } from "../users/dto/create-user.dto";
+import { LoginUserDto } from "./login.dto";
 
 @Controller('auth')
 export class AuthController{
@@ -19,7 +20,7 @@ export class AuthController{
     }
     @Post('signin')
     @HttpCode(HttpStatus.ACCEPTED)
-    async signin(@Body() data: Partial<CreateUserDto>){
+    async signin(@Body() data:LoginUserDto){
         try{
             return this.authService.signin(data)
         }catch(err){

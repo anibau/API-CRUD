@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, HttpStatus, BadRequestException, Query, UseGuards } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, Put, HttpCode, HttpStatus, BadRequestException, Query, UseGuards, ParseUUIDPipe } from '@nestjs/common';
 import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { validateUser } from 'src/utils/validateUser';
@@ -34,7 +34,7 @@ export class UsersController {
   @Get(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  async findOne(@Param('id') id: string) {
+  async findOne(@Param('id', ParseUUIDPipe) id: string) {
     try{
       return  await this.usersService.findOne(id);
     }catch(err){
@@ -45,7 +45,7 @@ export class UsersController {
   @Put(':id')
   @HttpCode(HttpStatus.OK)
   @UseGuards(AuthGuard)
-  async update(@Param('id') id:string, @Body() dataUser:CreateUserDto){
+  async update(@Param('id', ParseUUIDPipe) id:string, @Body() dataUser:CreateUserDto){
     try{
       return this.usersService.update(id, dataUser)
     }catch(err){
@@ -56,7 +56,7 @@ export class UsersController {
   @Delete(':id')
   @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.OK)
-  async remove(@Param('id') id: string) {
+  async remove(@Param('id', ParseUUIDPipe) id: string) {
     try{
       return this.usersService.remove(id);
     }catch(err){

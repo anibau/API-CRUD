@@ -1,4 +1,4 @@
-import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, Post, Put, Query, UseGuards } from "@nestjs/common";
+import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatus, Param, ParseUUIDPipe, Post, Put, Query, UseGuards } from "@nestjs/common";
 import { ProductService } from "./product.service";
 import { ProductDTO } from "./product.dto";
 import { AuthGuard } from "../auth/auth.guard";
@@ -19,7 +19,7 @@ export class ProductController{
 
     @Get(':id')
     @HttpCode(HttpStatus.OK)
-    async getById(@Param('id') id:string){
+    async getById(@Param('id', ParseUUIDPipe) id:string){
         try{
             return this.productService.getByID(id)
         }catch(err){
@@ -41,7 +41,7 @@ export class ProductController{
     @Put(':id')
     @HttpCode(HttpStatus.OK)
     @UseGuards(AuthGuard)
-    async updateProduct(@Param('id') id:string, @Body() data: ProductDTO){
+    async updateProduct(@Param('id', ParseUUIDPipe) id:string, @Body() data: ProductDTO){
         try{
             return this.productService.updateProduct(data, id)
         }catch(err){
@@ -51,7 +51,7 @@ export class ProductController{
     @Delete(':id')
     @UseGuards(AuthGuard)
     @HttpCode(HttpStatus.OK)
-    async deleteProduct(@Param('id') id:string){
+    async deleteProduct(@Param('id', ParseUUIDPipe) id:string){
         try{
             return this.productService.deleteProduct(id)
         }catch(err){
