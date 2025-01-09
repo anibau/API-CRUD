@@ -60,8 +60,8 @@
 //* validacion en DTO'S: @IsNotEmpty(),@IsEmail(), @MaxLength(15), @IsStrongPassword({}),@ArrayNotEmpty(),@IsArray(), @ValidateNested({each:true}),@Type(()=>Product)
 //* Validacionde uuid: (@Param('id', ParseUUIDPipe) id: string)
 //* FILE UPLOAD: Configurar una cuenta en Cloudinary y generar las credenciales de acceso correspondientes.
-// npm i -D @types/multer
-// npm install cloudinary
+//* npm i -D @types/multer
+//* npm install cloudinary
 // import { v2 as cloudinary} from "cloudinary"
 // dotenvConfig({path:'.env'})
 // export const cloudinaryConfig= {
@@ -74,6 +74,18 @@
 //         })
 //     }
 // }
+//*npm i -D @types/buffer-to-stream | npm install buffer-to-stream
+//* funcion fileService para cargar la imagen
+// const result: UploadApiResponse= await new Promise((resolve, reject)=>{
+//     const fileUpload= v2.uploader.upload_stream(
+//         {resource_type: 'auto'},
+//         (error, result)=>{
+//             if(error){
+//                 reject(error)
+//             } else{resolve(result as UploadApiResponse)}
+//         }                
+//     ); toStream(data.buffer).pipe(fileUpload)
+// });
 
 
 // decorador @Inject( 'name') private nameInternal :inyeccion de dependencia  con un 'provide' personalizado

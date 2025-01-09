@@ -8,6 +8,7 @@ import { AuthModule } from './modulos/auth/auth.module';
 import { CategoryModule } from './modulos/categories/category.module';
 import { OrderDetailsModule } from './modulos/orderDetail/orderDetails.module';
 import { OrderModule } from './modulos/orders/order.module';
+import { FilesModule } from './files/files.module';
 
 @Module({
   imports: [
@@ -22,7 +23,8 @@ import { OrderModule } from './modulos/orders/order.module';
     AuthModule,
     CategoryModule,
     OrderDetailsModule,
-    OrderModule
+    OrderModule,
+    FilesModule
   ],
   controllers: [],
   providers: [],
