@@ -8,7 +8,8 @@ import { AuthModule } from './modulos/auth/auth.module';
 import { CategoryModule } from './modulos/categories/category.module';
 import { OrderDetailsModule } from './modulos/orderDetail/orderDetails.module';
 import { OrderModule } from './modulos/orders/order.module';
-import { FilesModule } from './files/files.module';
+import { FilesModule } from './modulos/files/files.module';
+import { JwtModule } from '@nestjs/jwt';
 
 @Module({
   imports: [
@@ -24,7 +25,12 @@ import { FilesModule } from './files/files.module';
     CategoryModule,
     OrderDetailsModule,
     OrderModule,
-    FilesModule
+    FilesModule,
+    JwtModule.register({
+      global:true,
+      signOptions:{expiresIn:'2h'},
+      secret: process.env.JWT_SECRET
+    })
   ],
   controllers: [],
   providers: [],

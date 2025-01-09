@@ -59,7 +59,7 @@
 //   }))
 //* validacion en DTO'S: @IsNotEmpty(),@IsEmail(), @MaxLength(15), @IsStrongPassword({}),@ArrayNotEmpty(),@IsArray(), @ValidateNested({each:true}),@Type(()=>Product)
 //* Validacionde uuid: (@Param('id', ParseUUIDPipe) id: string)
-//* FILE UPLOAD: Configurar una cuenta en Cloudinary y generar las credenciales de acceso correspondientes.
+//! FILE UPLOAD: Configurar una cuenta en Cloudinary y generar las credenciales de acceso correspondientes.
 //* npm i -D @types/multer
 //* npm install cloudinary
 // import { v2 as cloudinary} from "cloudinary"
@@ -86,6 +86,31 @@
 //         }                
 //     ); toStream(data.buffer).pipe(fileUpload)
 // });
+//* interceptar el file en el @Controller y validar el archivo
+// @UseInterceptors(FileInterceptor('file'))
+// async uploadImage( @Param('id', ParseUUIDPipe) id:string, @UploadedFile(new ParseFilePipe({validators:[
+//     new MaxFileSizeValidator({maxSize:200000, message: 'la imagen debe ser menor a 200k'}),
+//     new FileTypeValidator({fileType:/(jpeg|jpg|png|webp)$/})
+// ]})) data:Express.Multer.File){
+//! AUTH 1: autenticacion y seguridad, encriptacion de contraseña ; app.module| auth.service | auth.guard
+//* npm install --save @nestjs/jwt | npm i bcrypt 
+// JwtModule.register({global: , signoptions: , secret: })
+// const hashedPassword= await bcrypt.hash(data.password,10);
+// private readonly jwtService: JwtService){}
+// const comparePassword= await bcrypt.compare(data.password, user.password);
+// const userPayload= {sub: , id: , role: }
+// const token= this.jwtService.sign(userPayload);
+//* authguard
+// try{
+//     //verificacion de firma
+//     const secret= process.env.JWT_SECRET;
+//     const payload= this.jwtService.verify(token, {secret});
+//     payload.iat= new Date(payload.iat*1000)
+//     payload.exp= new Date(payload.exp*1000)
+//     request.user= payload
+//     return true
+// }catch(error){
+
 
 
 // decorador @Inject( 'name') private nameInternal :inyeccion de dependencia  con un 'provide' personalizado

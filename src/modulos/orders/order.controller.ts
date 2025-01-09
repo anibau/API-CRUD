@@ -1,5 +1,6 @@
-import { Body, Controller, Get, Param, ParseUUIDPipe, Post } from "@nestjs/common";
+import { Body, Controller, Get, Param, ParseUUIDPipe, Post, UseGuards } from "@nestjs/common";
 import { OrderService } from "./order.service";
+import { AuthGuard } from "../auth/auth.guard";
 
 @Controller('orders')
 export class OrderController{
@@ -11,11 +12,13 @@ export class OrderController{
     }
 
     @Get(':id')
+    @UseGuards(AuthGuard)
     async getOrderbyId(@Param('id', ParseUUIDPipe) id:string){
         return this.orderService.getOrderbyId(id)
     }
 
     @Post()
+    @UseGuards(AuthGuard)
     async addOrder(@Body() data){
         return this.orderService.addOrder(data)
     }
