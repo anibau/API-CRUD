@@ -2,6 +2,8 @@ import { BadRequestException, Body, Controller, Delete, Get, HttpCode, HttpStatu
 import { ProductService } from "./product.service";
 import { ProductDTO } from "./product.dto";
 import { AuthGuard } from "../auth/auth.guard";
+import { RoleGuard } from "../auth/role.guard";
+import { Role, Roles } from "../auth/role.decorator";
 
 @Controller('products')
 export class ProductController{
@@ -40,7 +42,8 @@ export class ProductController{
 
     @Put(':id')
     @HttpCode(HttpStatus.OK)
-    @UseGuards(AuthGuard)
+    @Roles(Role.Admin)
+    @UseGuards(AuthGuard, RoleGuard)
     async updateProduct(@Param('id', ParseUUIDPipe) id:string, @Body() data: ProductDTO){
         try{
             return this.productService.updateProduct(data, id)

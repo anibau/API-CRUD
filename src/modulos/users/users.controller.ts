@@ -3,6 +3,8 @@ import { UsersService } from './users.service';
 import { CreateUserDto } from './dto/create-user.dto';
 import { validateUser } from 'src/utils/validateUser';
 import { AuthGuard } from '../auth/auth.guard';
+import { RoleGuard } from '../auth/role.guard';
+import { Role, Roles } from '../auth/role.decorator';
 
 @Controller('users')
 export class UsersController {
@@ -22,7 +24,8 @@ export class UsersController {
 
   @Get()
   @HttpCode(HttpStatus.OK)
-  @UseGuards(AuthGuard)
+  @Roles(Role.Admin)
+  @UseGuards(AuthGuard, RoleGuard)
   async findAll(@Query('page') page:number= 1, @Query('limit') limit:number=5){
     try{
       return await this.usersService.findAll(page, limit);

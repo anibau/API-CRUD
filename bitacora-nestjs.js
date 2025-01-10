@@ -110,6 +110,7 @@
 //     request.user= payload
 //     return true
 // }catch(error){
+//! AUTH 2: autorizacion por roles, (role.guard, dto, entidad, role.decorator )
 
 
 

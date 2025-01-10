@@ -6,6 +6,7 @@ import { InjectRepository } from "@nestjs/typeorm";
 import { LoginUserDto } from "./login.dto";
 import * as bcrypt from 'bcrypt'
 import { JwtService } from "@nestjs/jwt";
+import { Role } from "./role.decorator";
 
 @Injectable()
 export class AuthRepository{
@@ -52,11 +53,34 @@ export class AuthRepository{
         const userPayload= {
             sub: user.id,
             id:user.id,
-            email: user.email
-            //role: [user.isAdmin? ]
+            email: user.email,
+            roles: [user.isAdmin? Role.Admin: Role.User ]
         };
+        console.log(userPayload)
         const token= this.jwtService.sign(userPayload);
 
         return {message: 'login exitoso', token}
+    }
+ 
+    async createUserAdmin(){
+        const userAdmin= await this.userRepository.findOne({where:{isAdmin:true}});
+        if(!userAdmin){ 
+            const admin={
+                name: "admin user",
+                email: process.env.ADMIN_USER,
+                password: await bcrypt.hash(process.env.ADMIN_PASSWORD, 10),
+                phone: 25522789,
+                country:"peruu",
+                address: "calle ADMIN 123",
+                city:"lima-sjm",
+                isAdmin: true
+            } 
+            const newAdmin= this.userRepository.create(admin)
+            if(!newAdmin){
+                console.log('error al crear admin user')
+            }
+            await this.userRepository.save(newAdmin)
+            console.log('admin user creado')
+        }
     }
 }
