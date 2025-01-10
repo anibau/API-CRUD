@@ -110,10 +110,18 @@
 //     request.user= payload
 //     return true
 // }catch(error){
-//! AUTH 2: autorizacion por roles, (role.guard, dto, entidad, role.decorator )
+//! AUTH 2: autorizacion por roles, (role.guard, dto, entidad, role.decorator, main.ts )
+// crear USERADMIN : main.ts
+//const createAdmin= app.get(AuthRepository);
+//crear ROLE.GUARD
+// const getRoles= this.reflector.getAllAndOverride<Role[]>('roles', [context.getHandler(), context.getClass()]);
+// const valid= user && user.roles && getRoles.some((role)=>user.roles.includes(role));
+// crear ROLE.DECORATOR.TS
+// export enum Role{
+//   export const Roles=(...roles:Role[])=>SetMetadata('roles', roles)
 
 
-
+//!EXTRAS
 // decorador @Inject( 'name') private nameInternal :inyeccion de dependencia  con un 'provide' personalizado
 // { provide: functionReplace||nameProvide, useValue: functiongetUser }:para providers externos
 // { provide: 'nameProvider', useFactory: ( )=>{ },}:  creamos el provide personalizado dentro de 'provider'

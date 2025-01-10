@@ -12,14 +12,8 @@ export class RoleGuard implements CanActivate{
 
         const request= context.switchToHttp().getRequest();
         const user= request.user;
-        console.log(user);
-        console.log(user.roles);
-
         const valid= user && user.roles && getRoles.some((role)=>user.roles.includes(role));
 
-        // const hasRole= ()=>requiredRoles.some((role)=>user.roles.includes(role));
-        // const valid= user && user.roles && hasRole();
-        console.log(valid)
         if(!valid){
             throw new UnauthorizedException('ruta no autorizada')
         }
